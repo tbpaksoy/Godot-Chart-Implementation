@@ -1,6 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 using System;
+[Tool]
 public partial class PieChart : Chart
 {
     [Export]
@@ -22,13 +23,10 @@ public partial class PieChart : Chart
         Vector2 s = GetRect().Size;
         Vector2 center = s / 2f;
         float size = Mathf.Min(s.X, s.Y) / 2;
-        RandomNumberGenerator rng = new RandomNumberGenerator();
         int index = 0;
         while (angles.Count > 0)
         {
             (float, float) temp = angles.Pop();
-            GD.Print(temp);
-            Color color = colors[index];
             index = (index + 1) % colors.Length;
             DrawArcPoly(center, size, temp.Item1 * 360f, temp.Item2 * 360f, colors[index]);
         }
