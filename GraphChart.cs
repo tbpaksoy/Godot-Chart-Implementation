@@ -1,9 +1,11 @@
 using Godot;
 using System.Collections.Generic;
+#if Test
 using System.Linq;
 using Date = System.DateOnly;
 using DateList = System.Collections.Generic.List<System.DateOnly>;
 using DateAndIndex = System.Collections.Generic.Dictionary<System.DateOnly, int>;
+#endif
 [Tool]
 public partial class GraphChart : Chart
 {
@@ -11,9 +13,14 @@ public partial class GraphChart : Chart
     private Vector2 offset;
     [Export]
     public Color lineColor, nodeColor;
+    [Export]
+    public bool drawValue;
+    [Export]
+    public Vector2 valueOffset;
+    [Export]
+    public Color valueColor = new Color(1f, 1f, 1f);
     public override void _Draw()
     {
-
         if (sources == null || sources.Count == 0) return;
         float min = float.MaxValue, max = float.MinValue;
         foreach (float f in data)
@@ -28,7 +35,7 @@ public partial class GraphChart : Chart
             float zeroPoint = -min / (min - max) * size.Y + size.Y + offset.Y / 2f;
             DrawLine(new Vector2(offset.X / 2f, zeroPoint), new Vector2(size.X + offset.X / 2f, zeroPoint), new Color(1f, 0f, 0f), 2f);
         }
-        if (ableToOrderByDate)
+        if (!ableToOrderByDate)
         {
             float divider = min - max;
             divider = divider == 0 ? 1 : divider;
@@ -65,7 +72,20 @@ public partial class GraphChart : Chart
             DrawLine(points[i], points[i + 1], lineColor, 5f, false);
             DrawCircle(points[i], 5f, nodeColor);
         }
-        DrawCircle(points[^1], 5f, nodeColor);
+        try
+        {
+            DrawCircle(points[^1], 5f, nodeColor);
+        }
+        catch
+        {
+
+        }
+        if (drawValue)
+        {
+            for (int i = 0; i < data.Count; i++)
+            {
+                DrawString(GetThemeDefaultFont(), points[i] + valueOffset, data[i].ToString(), modulate: valueColor);
+            }
+        }
     }
-    public static float DampingFunction(float t) => Mathf.Pow(Mathf.E, -t) * Mathf.Cos(2 * Mathf.Pi * t);
 }

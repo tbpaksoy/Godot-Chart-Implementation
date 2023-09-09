@@ -1,6 +1,5 @@
 using Godot;
 using Godot.Collections;
-using DateList = System.Collections.Generic.List<System.DateOnly?>;
 using SourceAndDate = System.Collections.Generic.Dictionary<ChartDataSource, System.DateOnly>;
 using Enumerable = System.Linq.Enumerable;
 public abstract partial class Chart : Control
@@ -37,12 +36,15 @@ public abstract partial class Chart : Control
     }
     public void UpdateProp(ChartDataSource source)
     {
+        bool redraw = false;
         int index = sources.IndexOf(source);
         if (index == -1 || index >= sources.Count) return;
+        redraw |= data[index] == source.value;
         data[index] = source.value;
+        redraw |= names[index] == source.name;
         names[index] = source.name;
 
 
-        QueueRedraw();
+        if (redraw) QueueRedraw();
     }
 }

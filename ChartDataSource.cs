@@ -6,6 +6,7 @@ using Date = System.DateOnly;
 [Tool]
 public partial class ChartDataSource : Node
 {
+    private Chart target;
     [Export]
     public string name;
     [Export]
@@ -17,6 +18,7 @@ public partial class ChartDataSource : Node
         {
             chart.Add(this);
             chart.QueueRedraw();
+            target = chart;
         }
         else QueueFree();
     }
@@ -26,9 +28,5 @@ public partial class ChartDataSource : Node
         chart.Remove(this);
         chart.QueueRedraw();
     }
-    public override void _Notification(int what)
-    {
-        base._Notification(what);
-        (GetParent() as Chart)?.UpdateProp(this);
-    }
+    public override void _Process(double delta) => target.UpdateProp(this);
 }
