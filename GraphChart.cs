@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using Parallel = System.Threading.Tasks.Parallel;
 #if Test
 using System.Linq;
 using Date = System.DateOnly;
@@ -12,13 +13,18 @@ public partial class GraphChart : Chart
     [Export]
     private Vector2 offset;
     [Export]
-    public Color lineColor, nodeColor;
+    public bool drawGrid;
+    [Export]
+    public Vector2 gridLength;
+    [Export]
+    public Color lineColor, nodeColor, gridColor;
     [Export]
     public bool drawValue;
     [Export]
     public Vector2 valueOffset;
     [Export]
     public Color valueColor = new Color(1f, 1f, 1f);
+
     public override void _Draw()
     {
         if (sources == null || sources.Count == 0) return;
@@ -30,7 +36,12 @@ public partial class GraphChart : Chart
         }
         List<Vector2> points = new List<Vector2>();
         Vector2 size = GetRect().Size - offset;
-        if (min <= 0)
+        if (drawGrid && gridColor.A > 0 && gridLength.X >= 1f && gridLength.Y >= 1f)
+        {
+            for (float i = size.Y; i >= offset.Y; i -= gridLength.Y) DrawLine(new Vector2(offset.X, i), new Vector2(size.X, i), gridColor);
+            for (float j = offset.X; j <= size.X; j += gridLength.X) DrawLine(new Vector2(j, offset.Y), new Vector2(j, size.Y), gridColor);
+        }
+        if (min < 0)
         {
             float zeroPoint = -min / (min - max) * size.Y + size.Y + offset.Y / 2f;
             DrawLine(new Vector2(offset.X / 2f, zeroPoint), new Vector2(size.X + offset.X / 2f, zeroPoint), new Color(1f, 0f, 0f), 2f);
