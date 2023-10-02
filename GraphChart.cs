@@ -35,7 +35,8 @@ public partial class GraphChart : Chart
             if (f > max) max = f;
         }
         List<Vector2> points = new List<Vector2>();
-        Vector2 size = GetRect().Size - offset;
+        Vector2 originalSize = GetRect().Size;
+        Vector2 size = originalSize - offset;
         if (drawGrid && gridColor.A > 0 && gridLength.X >= 1f && gridLength.Y >= 1f)
         {
             for (float i = size.Y; i >= offset.Y; i -= gridLength.Y) DrawLine(new Vector2(offset.X, i), new Vector2(size.X, i), gridColor);
@@ -48,13 +49,17 @@ public partial class GraphChart : Chart
         }
         if (!ableToOrderByDate)
         {
-            float divider = min - max;
+
+            float divider = max - min;
             divider = divider == 0 ? 1 : divider;
+            float xBegin = offset.X, xEnd = size.X, yBegin = size.Y, yEnd = offset.Y;
             for (int i = 0; i < data.Count; i++)
             {
-                float y = (data[i] - min) / divider;
-                points.Add(new Vector2(size.X / (data.Count - 1) * i, y * size.Y + size.Y) + offset / 2f);
+                float x = xBegin + (float)i / (data.Count - 1) * (xEnd - xBegin);
+                float y = yBegin + (data[i] - min) / divider * (yEnd - yBegin);
+                points.Add(new Vector2(x, y));
             }
+
         }
 #if Test
         else

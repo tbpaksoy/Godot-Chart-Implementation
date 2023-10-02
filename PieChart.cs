@@ -27,7 +27,7 @@ public partial class PieChart : Chart
         {
             (float, float) temp = angles.Pop();
             index = (index + 1) % colors.Length;
-            DrawArcPoly(center, size, temp.Item1 * 360f, temp.Item2 * 360f, colors[index]);
+            DrawArcPoly(center, size, temp.Item1 * 360f, temp.Item2 * 360f, colors[index % colors.Length]);
         }
     }
     private void DrawArcPoly(Vector2 center, float radius, float angleFrom, float angleTo, Color color)
