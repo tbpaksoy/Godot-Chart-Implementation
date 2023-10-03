@@ -19,22 +19,22 @@ public partial class WaterfallChart : Chart
             if (max < f) max = f;
         }
         Vector2 size = GetRect().Size;
-        float xPerColumn = size.X / data.Count, yPerValue = size.Y / (max - min);
+        float xPerColumn = size.X / (data.Count + 1), yPerValue = size.Y / (max);
         if (xPerColumn == 0f || yPerValue == 0f) return;
         if (min < 0f)
         {
             float zeroPoint = -min / (min - max) * size.Y + size.Y;
             DrawLine(Vector2.Zero, new Vector2(size.X, zeroPoint), new Color(1f, 0f, 0f));
         }
-        //DrawColumn(0, Vector2.Zero, new Vector2(xPerColumn, yPerValue * data[0]));
-        DrawColumn(0, new Vector2(0f, size.Y), new Vector2(xPerColumn, -yPerValue * data[0]));
-        for (int i = 1; i < data.Count - 1; i++)
+        DrawColumn(0, new Vector2(0f, size.Y), new Vector2(xPerColumn, -Mathf.Abs(yPerValue * data[0])));
+        float total = data[0] * yPerValue;
+        for (int i = 1; i < data.Count; i++)
         {
-            bool less = data[i] - data[i - 1] <= 0;
-            float f = -(data[i] - data[i - 1]) * yPerValue;
-            DrawColumn(i, new Vector2(xPerColumn * i, -data[i] * yPerValue), new Vector2(xPerColumn, f), less ? colorOnDecrease : colorOnIncrease);
+            float diffrence = data[i - 1] - data[i];
+            DrawColumn(i, new Vector2(xPerColumn * i, size.Y - total), new Vector2(xPerColumn, diffrence * yPerValue), diffrence < 0 ? colorOnIncrease : colorOnDecrease);
+            total -= yPerValue * diffrence;
         }
-        DrawColumn(data.Count - 1, size - new Vector2(xPerColumn, 0f), new Vector2(xPerColumn, -yPerValue * data[^1]));
+        DrawColumn(data.Count - 1, size - new Vector2(xPerColumn, 0f), new Vector2(xPerColumn, -Mathf.Abs(yPerValue * data[^1])));
     }
     private void DrawColumn(int index, Vector2 begin, Vector2 offset)
     {

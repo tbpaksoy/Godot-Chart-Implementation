@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+[GlobalClass]
 [Tool]
 public partial class PieChart : Chart
 {

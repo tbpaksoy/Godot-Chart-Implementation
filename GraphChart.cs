@@ -7,6 +7,7 @@ using Date = System.DateOnly;
 using DateList = System.Collections.Generic.List<System.DateOnly>;
 using DateAndIndex = System.Collections.Generic.Dictionary<System.DateOnly, int>;
 #endif
+[GlobalClass]
 [Tool]
 public partial class GraphChart : Chart
 {

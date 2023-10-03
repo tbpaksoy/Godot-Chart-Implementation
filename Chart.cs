@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using SourceAndDate = System.Collections.Generic.Dictionary<ChartDataSource, System.DateOnly>;
 using Enumerable = System.Linq.Enumerable;
+[GlobalClass]
 public abstract partial class Chart : Control
 {
     protected Array<float> data = new Array<float>();
