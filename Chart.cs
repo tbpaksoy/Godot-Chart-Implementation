@@ -47,4 +47,18 @@ public abstract partial class Chart : Control
 
         if (redraw) QueueRedraw();
     }
+    public void Update()
+    {
+        data.Clear();
+        names.Clear();
+        sources.Clear();
+        sourceAndDate.Clear();
+        foreach (Node node in GetChildren())
+            if (node is ChartDataSource cds) Add(cds);
+        QueueRedraw();
+    }
+    public override void _Ready()
+    {
+        ChildOrderChanged += Update;
+    }
 }

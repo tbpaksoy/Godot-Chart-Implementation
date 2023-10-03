@@ -25,8 +25,14 @@ public partial class ChartDataSource : Node
     public override void _ExitTree()
     {
         Chart chart = GetParent() as Chart;
-        chart.Remove(this);
-        chart.QueueRedraw();
+        try
+        {
+            chart.Remove(this);
+        }
+        finally
+        {
+            chart.QueueRedraw();
+        }
     }
     public override void _Process(double delta) => target.UpdateProp(this);
 }

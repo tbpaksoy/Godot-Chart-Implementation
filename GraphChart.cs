@@ -11,7 +11,7 @@ using DateAndIndex = System.Collections.Generic.Dictionary<System.DateOnly, int>
 public partial class GraphChart : Chart
 {
     [Export]
-    private Vector2 offset;
+    public Vector2 offset;
     [Export]
     public bool drawGrid;
     [Export]
@@ -24,7 +24,8 @@ public partial class GraphChart : Chart
     public Vector2 valueOffset;
     [Export]
     public Color valueColor = new Color(1f, 1f, 1f);
-
+    [Export]
+    public float lineThickness, nodeRadius;
     public override void _Draw()
     {
         if (sources == null || sources.Count == 0) return;
@@ -85,12 +86,12 @@ public partial class GraphChart : Chart
         for (int i = 0; i < points.Count - 1; i++)
         {
 
-            DrawLine(points[i], points[i + 1], lineColor, 5f, false);
-            DrawCircle(points[i], 5f, nodeColor);
+            DrawLine(points[i], points[i + 1], lineColor, lineThickness, false);
+            DrawCircle(points[i], nodeRadius, nodeColor);
         }
         try
         {
-            DrawCircle(points[^1], 5f, nodeColor);
+            DrawCircle(points[^1], nodeRadius, nodeColor);
         }
         catch
         {
