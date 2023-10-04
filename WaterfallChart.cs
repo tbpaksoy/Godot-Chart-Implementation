@@ -38,10 +38,12 @@ public partial class WaterfallChart : Chart
         else if (Mathf.Sign(min) >= 0f ^ Mathf.Sign(max) >= 0f)
         {
             DrawColumn(0, new Vector2(0f, zeroPoint - data[0] * yPerValue), new Vector2(xPerColumn, yPerValue * data[0]));
-            float total = data[0] * yPerValue;
+            float total = zeroPoint - data[0] * yPerValue;
             for (int i = 1; i < data.Count; i++)
             {
-
+                float diffrence = data[i - 1] - data[i];
+                DrawColumn(i, new Vector2(xPerColumn * i, total), new Vector2(xPerColumn, diffrence * yPerValue), diffrence < 0 ? colorOnIncrease : colorOnDecrease);
+                total += yPerValue * diffrence;
             }
             DrawColumn(data.Count - 1, new Vector2(size.X - xPerColumn, zeroPoint - yPerValue * data[^1]), new Vector2(xPerColumn, yPerValue * data[^1]));
         }
