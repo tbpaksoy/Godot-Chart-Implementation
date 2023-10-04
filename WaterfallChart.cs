@@ -19,22 +19,34 @@ public partial class WaterfallChart : Chart
             if (max < f) max = f;
         }
         Vector2 size = GetRect().Size;
-        float xPerColumn = size.X / (data.Count + 1), yPerValue = size.Y / (max);
+        float xPerColumn = size.X / (data.Count + 1), yPerValue = size.Y / (max - Mathf.Min(0f, min));
+        float positiveToNegativeRatio = max / (max + Mathf.Abs(min));
+        float zeroPoint = size.Y * positiveToNegativeRatio;
         if (xPerColumn == 0f || yPerValue == 0f) return;
-        if (min < 0f)
+        if (Mathf.Sign(min) >= 0f && Mathf.Sign(max) >= 0f)
         {
-            float zeroPoint = -min / (min - max) * size.Y + size.Y;
-            DrawLine(Vector2.Zero, new Vector2(size.X, zeroPoint), new Color(1f, 0f, 0f));
+            DrawColumn(0, new Vector2(0f, size.Y), new Vector2(xPerColumn, -Mathf.Abs(yPerValue * data[0])));
+            float total = data[0] * yPerValue;
+            for (int i = 1; i < data.Count; i++)
+            {
+                float diffrence = data[i - 1] - data[i];
+                DrawColumn(i, new Vector2(xPerColumn * i, size.Y - total), new Vector2(xPerColumn, diffrence * yPerValue), diffrence < 0 ? colorOnIncrease : colorOnDecrease);
+                total -= yPerValue * diffrence;
+            }
+            DrawColumn(data.Count - 1, size - new Vector2(xPerColumn, 0f), new Vector2(xPerColumn, -Mathf.Abs(yPerValue * data[^1])));
         }
-        DrawColumn(0, new Vector2(0f, size.Y), new Vector2(xPerColumn, -Mathf.Abs(yPerValue * data[0])));
-        float total = data[0] * yPerValue;
-        for (int i = 1; i < data.Count; i++)
+        else if (Mathf.Sign(min) >= 0f ^ Mathf.Sign(max) >= 0f)
         {
-            float diffrence = data[i - 1] - data[i];
-            DrawColumn(i, new Vector2(xPerColumn * i, size.Y - total), new Vector2(xPerColumn, diffrence * yPerValue), diffrence < 0 ? colorOnIncrease : colorOnDecrease);
-            total -= yPerValue * diffrence;
+            DrawColumn(0, new Vector2(0f, zeroPoint - data[0] * yPerValue), new Vector2(xPerColumn, yPerValue * data[0]));
+            float total = data[0] * yPerValue;
+            for (int i = 1; i < data.Count; i++)
+            {
+
+            }
+            DrawColumn(data.Count - 1, new Vector2(size.X - xPerColumn, zeroPoint - yPerValue * data[^1]), new Vector2(xPerColumn, yPerValue * data[^1]));
         }
-        DrawColumn(data.Count - 1, size - new Vector2(xPerColumn, 0f), new Vector2(xPerColumn, -Mathf.Abs(yPerValue * data[^1])));
+        if (min < 0f) DrawLine(new Vector2(0f, zeroPoint), new Vector2(size.X, zeroPoint), new Color(1f, 0f, 0f), width: 2f);
+
     }
     private void DrawColumn(int index, Vector2 begin, Vector2 offset)
     {
