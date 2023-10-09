@@ -22,9 +22,9 @@ public partial class GraphChart : Chart
     [Export]
     public bool drawValue;
     [Export]
-    public Vector2 valueOffset;
+    public Vector2 valueOffset, nameOffset;
     [Export]
-    public Color valueColor = new Color(1f, 1f, 1f);
+    public Color valueColor = new Color(1f, 1f, 1f), nameColor = new Color(1f, 1f, 1f);
     [Export]
     public float lineThickness, nodeRadius;
     public override void _Draw()
@@ -89,6 +89,7 @@ public partial class GraphChart : Chart
 
             DrawLine(points[i], points[i + 1], lineColor, lineThickness, false);
             DrawCircle(points[i], nodeRadius, nodeColor);
+            if (!string.IsNullOrWhiteSpace(names[i])) DrawString(GetThemeDefaultFont(), points[i] + nameOffset, names[i]);
         }
         try
         {
