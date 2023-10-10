@@ -11,7 +11,8 @@ public partial class WaterfallChart : Chart
     public bool writeValues;
     [Export]
     public int fontSize;
-
+    [Export]
+    public Vector2 valueTextOffset;
     public override void _Draw()
     {
 
@@ -65,7 +66,7 @@ public partial class WaterfallChart : Chart
         points[3] = begin + offset with { X = 0 };
         DrawPolygon(points, new Color[] { startAndEndColor, startAndEndColor, startAndEndColor, startAndEndColor });
         if (text == null) return;
-        DrawString(GetThemeDefaultFont(), (points[0] + points[3]) / 2f, text, alignment: HorizontalAlignment.Fill, fontSize: fontSize);
+        DrawString(GetThemeDefaultFont(), (points[0] + points[3]) / 2f + valueTextOffset, text, alignment: HorizontalAlignment.Fill, fontSize: fontSize);
     }
     private void DrawColumn(int index, Vector2 begin, Vector2 offset, Color color, string text = null)
     {
@@ -77,6 +78,6 @@ public partial class WaterfallChart : Chart
         points[3] = begin + offset with { X = 0 };
         DrawPolygon(points, new Color[] { color, color, color, color });
         if (text == null) return;
-        DrawString(GetThemeDefaultFont(), (points[0] + points[3]) / 2f, text, alignment: HorizontalAlignment.Fill, fontSize: fontSize);
+        DrawString(GetThemeDefaultFont(), (points[0] + points[3]) / 2f + valueTextOffset, text, alignment: HorizontalAlignment.Fill, fontSize: fontSize);
     }
 }

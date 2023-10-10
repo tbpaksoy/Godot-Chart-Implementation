@@ -6,6 +6,7 @@ public partial class PieChart : Chart
 {
     [Export]
     public Color[] colors;
+
     public override void _Draw()
     {
         float total = 0;
@@ -23,12 +24,6 @@ public partial class PieChart : Chart
         Vector2 s = GetRect().Size;
         Vector2 center = s / 2f;
         float size = Mathf.Min(s.X, s.Y) / 2;
-        /*while (angles.Count > 0)
-        {
-            (float, float) temp = angles.Pop();
-            DrawArcPoly(center, size, temp.Item1 * 360f, temp.Item2 * 360f, colors[index % colors.Length]);
-            index = (index + 1) % colors.Length;
-        }*/
         for (int i = 0; i < data.Count; i++)
         {
             DrawArcPoly(center, size, angles[i].Item1 * 360f, angles[i].Item2 * 360f, colors[i % colors.Length]);
@@ -36,6 +31,14 @@ public partial class PieChart : Chart
         for (int i = 0; i < data.Count; i++)
         {
             DrawValue(center, data[i].ToString(), angles[i].Item1 * 360f, angles[i].Item2 * 360, size / 2f);
+        }
+        for (int i = 0, j = 0; i < names.Count; i++)
+        {
+            if (!string.IsNullOrEmpty(names[i]))
+            {
+                DrawLegendElement(new Vector2(0f, j * 16f), Vector2.One * 16f, colors[i % colors.Length], names[i]);
+                j++;
+            }
         }
     }
     private void DrawArcPoly(Vector2 center, float radius, float angleFrom, float angleTo, Color color)
@@ -58,5 +61,12 @@ public partial class PieChart : Chart
         float middleAngle = (toAngle + fromAngle) / 2f;
         GD.Print(middleAngle);
         DrawString(GetThemeDefaultFont(), center + new Vector2(Mathf.Cos(Mathf.DegToRad(middleAngle - 90f)), Mathf.Sin(Mathf.DegToRad(middleAngle - 90f))) * distance, text, alignment: HorizontalAlignment.Center);
+    }
+    private void DrawLegendElement(Vector2 begin, Vector2 size, Color color, string name)
+    {
+        Vector2[] points = new Vector2[] { begin, begin + size with { X = 0f }, begin + size, begin + size with { Y = 0f } };
+        Vector2[] uvs = new Vector2[] { Vector2.Zero, Vector2.Down, Vector2.One, Vector2.Right };
+        DrawPrimitive(points, new Color[] { color, color, color, color }, uvs);
+        DrawString(GetThemeDefaultFont(), points[2], name, alignment: HorizontalAlignment.Center);
     }
 }
