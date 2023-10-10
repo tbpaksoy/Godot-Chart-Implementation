@@ -9,5 +9,8 @@ Experimental chart system.
 
 # Chart Types
 Graph Chart <br/>
+![](Pictures/GraphChart.png)
 Pie Chart <br/>
+![](Pictures/PieChart.png)
 Waterfall Chart <br/>
+![](Pictures/WaterfallChart.png)
