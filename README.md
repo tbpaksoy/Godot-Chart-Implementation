@@ -9,8 +9,8 @@ Experimental chart system.
 
 # Chart Types
 Graph Chart <br/>
-![](Pictures/GraphChart.png)
+![](https://github.com/tbpaksoy/Godot-Chart-Implementation/blob/main/Pictures/GraphChart.PNG) <br/>
 Pie Chart <br/>
-![](Pictures/PieChart.png)
+![](https://github.com/tbpaksoy/Godot-Chart-Implementation/blob/main/Pictures/PieChart.PNG) <br/>
 Waterfall Chart <br/>
-![](Pictures/WaterfallChart.png)
+![](https://github.com/tbpaksoy/Godot-Chart-Implementation/blob/main/Pictures/WaterfallChart.PNG)
