@@ -17,12 +17,6 @@ public partial class WaterfallChart : Chart
     {
 
         if (data.Count < 3) return;
-        float min = float.MaxValue, max = float.MinValue;
-        foreach (float f in data)
-        {
-            if (min > f) min = f;
-            if (max < f) max = f;
-        }
         Vector2 size = GetRect().Size;
         float xPerColumn = size.X / (data.Count + 1), yPerValue = size.Y / (max - Mathf.Min(0f, min));
         float positiveToNegativeRatio = max / (max + Mathf.Abs(min));
