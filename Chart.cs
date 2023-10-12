@@ -10,7 +10,6 @@ public abstract partial class Chart : Control
     protected Array<ChartDataSource> sources = new Array<ChartDataSource>();
     protected SourceAndDate sourceAndDate = new SourceAndDate();
     protected bool ableToOrderByDate { get; private set; } = false;
-    protected float min = float.MaxValue, max = float.MinValue;
     public void Add(ChartDataSource source)
     {
         sources.Add(source);
@@ -19,8 +18,6 @@ public abstract partial class Chart : Control
         if (source.date != null)
             sourceAndDate.Add(source, (System.DateOnly)source.date);
         else ableToOrderByDate = false;
-        if (source.value < min) min = source.value;
-        if (source.value > max) max = source.value;
     }
     public void Remove(ChartDataSource source)
     {
@@ -47,18 +44,8 @@ public abstract partial class Chart : Control
         data[index] = source.value;
         redraw |= names[index] == source.name;
         names[index] = source.name;
-        if (data[index] > max) max = data[index];
-        else if (data[index] < min) min = data[index];
-        else
-        {
-            max = float.MinValue;
-            min = float.MaxValue;
-            foreach (float f in data)
-            {
-                if (max < f) max = f;
-                if (min > f) min = f;
-            }
-        }
+
+
         if (redraw) QueueRedraw();
     }
     public void Update()
@@ -67,8 +54,6 @@ public abstract partial class Chart : Control
         names.Clear();
         sources.Clear();
         sourceAndDate.Clear();
-        max = float.MinValue;
-        min = float.MaxValue;
         foreach (Node node in GetChildren())
             if (node is ChartDataSource cds) Add(cds);
         QueueRedraw();

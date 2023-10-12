@@ -30,6 +30,12 @@ public partial class GraphChart : Chart
     public override void _Draw()
     {
         if (sources == null || sources.Count == 0) return;
+        float min = float.MaxValue, max = float.MinValue;
+        foreach (float f in data)
+        {
+            if (f < min) min = f;
+            if (f > max) max = f;
+        }
         List<Vector2> points = new List<Vector2>();
         Vector2 originalSize = GetRect().Size;
         Vector2 size = originalSize - offset;
