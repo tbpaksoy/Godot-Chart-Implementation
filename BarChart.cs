@@ -6,6 +6,10 @@ public partial class BarChart : Chart
 {
     [Export]
     public Color[] colors;
+    [Export]
+    public bool writeValues;
+    [Export]
+    public Vector2 valueTextOffset;
     public override void _Draw()
     {
         if (data == null || data.Count == 0 || colors == null || colors.Length == 0) return;
@@ -20,7 +24,14 @@ public partial class BarChart : Chart
         {
             DrawColumn(new Vector2(i * xPerColumn, Size.Y * positiveRatio), new Vector2(xPerColumn, -data[i] * yPerValue), colors[i % colors.Length], names[i]);
         }
-
+        if (writeValues)
+        {
+            float height = positiveRatio * Size.Y;
+            for (int i = 0; i < data.Count; i++)
+            {
+                DrawString(GetThemeDefaultFont(), new Vector2(i * xPerColumn, height) + valueTextOffset, data[i].ToString());
+            }
+        }
     }
     private void DrawColumn(Vector2 begin, Vector2 offset, Color color, string text = null)
     {
@@ -35,7 +46,7 @@ public partial class BarChart : Chart
         DrawPrimitive(points, new Color[] { color, color, color, color }, uvs);
         if (text != null)
         {
-            DrawString(GetThemeDefaultFont(), (points[2] + points[3]) / 2f, text);
+            DrawString(GetThemeDefaultFont(), (points[0] + points[3]) / 2f, text);
         }
     }
 }
