@@ -59,7 +59,6 @@ public partial class PieChart : Chart
     private void DrawValue(Vector2 center, string text, float fromAngle, float toAngle, float distance)
     {
         float middleAngle = (toAngle + fromAngle) / 2f;
-        GD.Print(middleAngle);
         DrawString(GetThemeDefaultFont(), center + new Vector2(Mathf.Cos(Mathf.DegToRad(middleAngle - 90f)), Mathf.Sin(Mathf.DegToRad(middleAngle - 90f))) * distance, text, alignment: HorizontalAlignment.Center);
     }
     private void DrawLegendElement(Vector2 begin, Vector2 size, Color color, string name)
