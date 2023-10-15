@@ -34,5 +34,8 @@ public partial class ChartDataSource : Node
             chart.QueueRedraw();
         }
     }
-    public override void _Process(double delta) => target.UpdateProp(this);
+    public override void _Process(double delta)
+    {
+        if (target != null) target.UpdateProp(this);
+    }
 }
