@@ -11,7 +11,7 @@ public abstract partial class Chart : Control
     protected SourceAndDate sourceAndDate = new SourceAndDate();
     protected bool ableToOrderByDate { get; private set; } = false;
     protected float min = float.MaxValue, max = float.MinValue;
-    public void Add(ChartDataSource source)
+    public virtual void Add(ChartDataSource source)
     {
         sources.Add(source);
         data.Add(source.value);
@@ -22,7 +22,7 @@ public abstract partial class Chart : Control
         if (source.value < min) min = source.value;
         if (source.value > max) max = source.value;
     }
-    public void Remove(ChartDataSource source)
+    public virtual void Remove(ChartDataSource source)
     {
         int index = sources.IndexOf(source);
         if (index == -1) return;
@@ -38,7 +38,7 @@ public abstract partial class Chart : Control
         if (sourceAndDate.ContainsKey(cds)) sourceAndDate.Remove(cds);
         ableToOrderByDate = sources.Count == sourceAndDate.Count && Enumerable.SequenceEqual(sources, sourceAndDate.Keys);
     }
-    public void UpdateProp(ChartDataSource source)
+    public virtual void UpdateProp(ChartDataSource source)
     {
         bool redraw = false;
         int index = sources.IndexOf(source);
