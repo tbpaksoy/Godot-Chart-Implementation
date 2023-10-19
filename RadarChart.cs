@@ -4,6 +4,8 @@ using Godot.Collections;
 [Tool]
 public partial class RadarChart : Chart
 {
+    [Export]
+    public float radiusOffset;
     private Array<float> limits = new Array<float>();
     [Export]
     public float lineWidth;
@@ -56,7 +58,7 @@ public partial class RadarChart : Chart
     {
         float period = 2f * Mathf.Pi / data.Count;
         Vector2[] points = new Vector2[data.Count + 1];
-        float radius = Mathf.Min(Size.X, Size.Y) / 2f;
+        float radius = Mathf.Min(Size.X, Size.Y) / 2f - radiusOffset;
         for (int i = 0; i < data.Count; i++)
         {
             float temp = period * i;
@@ -70,12 +72,14 @@ public partial class RadarChart : Chart
         float period = 2f * Mathf.Pi / data.Count;
         Vector2[] points = new Vector2[data.Count + 1];
         Color[] colors = new Color[data.Count + 1];
+        float radius = Mathf.Min(Size.X, Size.Y) / 2f - radiusOffset;
         for (int i = 0; i < data.Count; i++)
         {
-            float radius = Mathf.Min(Size.X, Size.Y) / 2f * data[i] / limits[i];
+            float valueRatio = data[i] / limits[i];
             float temp = period * i;
+            Vector2 way = new Vector2(Mathf.Cos(temp), Mathf.Sin(temp));
+            points[i] = way * radius * valueRatio + Size / 2f;
             colors[i] = polygonColor;
-            points[i] = new Vector2(Mathf.Cos(temp), Mathf.Sin(temp)) * radius + Size / 2f;
         }
         points[^1] = points[0];
         colors[^1] = polygonColor;
