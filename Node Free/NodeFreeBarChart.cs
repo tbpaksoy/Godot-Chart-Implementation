@@ -4,13 +4,39 @@ using System.Collections.Generic;
 [GlobalClass]
 public partial class NodeFreeBarChart : NodeFreeChart
 {
+    private Color[] colors;
+    private bool writeValues;
+    private Vector2 valueTextOffset;
     [Export]
-    public Color[] colors;
+    public Color[] Colors
+    {
+        get => colors;
+        set
+        {
+            colors = value;
+            QueueRedraw();
+        }
+    }
     [Export]
-    public bool writeValues;
+    public bool WriteValues
+    {
+        get => writeValues;
+        set
+        {
+            writeValues = value;
+            QueueRedraw();
+        }
+    }
     [Export]
-    public Vector2 valueTextOffset;
-
+    public Vector2 ValueTextOffset
+    {
+        get => valueTextOffset;
+        set
+        {
+            valueTextOffset = value;
+            QueueRedraw();
+        }
+    }
     public override void _Draw()
     {
         float min = float.MaxValue, max = float.MinValue;
