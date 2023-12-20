@@ -4,14 +4,70 @@ using System.Collections.Generic;
 [Tool]
 public partial class NodeFreeWaterfallChart : NodeFreeChart
 {
+    private Color _startAndEndColor, _colorOnDecrease, _colorOnIncrease;
+    private bool _writeValues;
+    private int _fontSize;
+    private Vector2 _valueTextOffset;
     [Export]
-    public Color startAndEndColor, colorOnDecrease, colorOnIncrease;
+    public Color startAndEndColor
+    {
+        get => _startAndEndColor;
+        set
+        {
+            _startAndEndColor = value;
+            QueueRedraw();
+        }
+    }
     [Export]
-    public bool writeValues;
+    public Color colorOnDecrease
+    {
+        get => _colorOnDecrease;
+        set
+        {
+            _colorOnDecrease = value;
+            QueueRedraw();
+        }
+    }
     [Export]
-    public int fontSize;
+    public Color colorOnIncrease
+    {
+        get => _colorOnIncrease;
+        set
+        {
+            _colorOnIncrease = value;
+            QueueRedraw();
+        }
+    }
     [Export]
-    public Vector2 valueTextOffset;
+    public bool writeValues
+    {
+        get => _writeValues;
+        set
+        {
+            _writeValues = value;
+            QueueRedraw();
+        }
+    }
+    [Export]
+    public int fontSize
+    {
+        get => _fontSize;
+        set
+        {
+            _fontSize = value;
+            QueueRedraw();
+        }
+    }
+    [Export]
+    public Vector2 valueTextOffset
+    {
+        get => _valueTextOffset;
+        set
+        {
+            _valueTextOffset = value;
+            QueueRedraw();
+        }
+    }
 
     public override void _Draw()
     {

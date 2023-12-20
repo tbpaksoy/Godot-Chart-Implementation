@@ -4,11 +4,21 @@ using System.Collections.Generic;
 [Tool]
 public partial class PieChart : Chart
 {
+    private Color[] _colors;
     [Export]
-    public Color[] colors;
+    public Color[] colors
+    {
+        get => _colors;
+        set
+        {
+            _colors = value;
+            QueueRedraw();
+        }
+    }
 
     public override void _Draw()
     {
+        if (min < 0f) return;
         float total = 0;
         foreach (float f in data)
             total += f;

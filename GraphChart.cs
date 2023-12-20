@@ -11,22 +11,145 @@ using DateAndIndex = System.Collections.Generic.Dictionary<System.DateOnly, int>
 [Tool]
 public partial class GraphChart : Chart
 {
+    private Vector2 _offset;
+    private bool _drawGrid;
+    private Vector2 _gridLength;
+    private Color _lineColor, _nodeColor, _gridColor;
+    private bool _drawValue;
+    private Vector2 _valueOffset, _nameOffset;
+    private Color _valueColor, _nameColor;
+    private float _lineThickness, _nodeRadius;
     [Export]
-    public Vector2 offset;
+    public Vector2 offset
+    {
+        get => _offset;
+        set
+        {
+            _offset = value;
+            QueueRedraw();
+        }
+    }
     [Export]
-    public bool drawGrid;
+    public bool drawGrid
+    {
+        get => _drawGrid;
+        set
+        {
+            _drawGrid = value;
+            QueueRedraw();
+        }
+    }
     [Export]
-    public Vector2 gridLength;
+    public Vector2 gridLength
+    {
+        get => _gridLength;
+        set
+        {
+            _gridLength = value;
+            QueueRedraw();
+        }
+    }
     [Export]
-    public Color lineColor, nodeColor, gridColor;
+    public Color lineColor
+    {
+        get => _lineColor;
+        set
+        {
+            _lineColor = value;
+            QueueRedraw();
+        }
+    }
     [Export]
-    public bool drawValue;
+    public Color nodeColor
+    {
+        get => _nodeColor;
+        set
+        {
+            _nodeColor = value;
+            QueueRedraw();
+        }
+    }
     [Export]
-    public Vector2 valueOffset, nameOffset;
+    public Color gridColor
+    {
+        get => _gridColor;
+        set
+        {
+            _gridColor = value;
+            QueueRedraw();
+        }
+    }
     [Export]
-    public Color valueColor = new Color(1f, 1f, 1f), nameColor = new Color(1f, 1f, 1f);
+    public bool drawValue
+    {
+        get => _drawValue;
+        set
+        {
+            _drawValue = value;
+            QueueRedraw();
+        }
+    }
     [Export]
-    public float lineThickness, nodeRadius;
+    public Vector2 valueOffset
+    {
+        get => _valueOffset;
+        set
+        {
+            _valueOffset = value;
+            QueueRedraw();
+        }
+    }
+    [Export]
+    public Vector2 nameOffset
+    {
+        get => _nameOffset;
+        set
+        {
+            _nameOffset = value;
+            QueueRedraw();
+        }
+    }
+    [Export]
+    public Color valueColor
+    {
+        get => _valueColor;
+        set
+        {
+            _valueColor = value;
+            QueueRedraw();
+        }
+    }
+    [Export]
+    public Color nameColor
+    {
+        get => _nameColor;
+        set
+        {
+            _nameColor = value;
+            QueueRedraw();
+        }
+    }
+    [Export]
+    public float lineThickness
+    {
+        get => _lineThickness;
+        set
+        {
+            _lineThickness = value;
+            QueueRedraw();
+        }
+    }
+    [Export]
+    public float nodeRadius
+    {
+        get => _nodeRadius;
+        set
+        {
+            _nodeRadius = value;
+            QueueRedraw();
+        }
+    }
+
     public override void _Draw()
     {
         if (sources == null || sources.Count == 0) return;

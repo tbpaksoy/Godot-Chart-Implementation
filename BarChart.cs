@@ -4,12 +4,39 @@ using System;
 [GlobalClass]
 public partial class BarChart : Chart
 {
+    private Color[] colors;
+    private bool writeValues;
+    private Vector2 valueTextOffset;
     [Export]
-    public Color[] colors;
+    public Color[] Colors
+    {
+        get => colors;
+        set
+        {
+            colors = value;
+            QueueRedraw();
+        }
+    }
     [Export]
-    public bool writeValues;
+    public bool WriteValues
+    {
+        get => writeValues;
+        set
+        {
+            writeValues = value;
+            QueueRedraw();
+        }
+    }
     [Export]
-    public Vector2 valueTextOffset;
+    public Vector2 ValueTextOffset
+    {
+        get => valueTextOffset;
+        set
+        {
+            valueTextOffset = value;
+            QueueRedraw();
+        }
+    }
     public override void _Draw()
     {
         if (data == null || data.Count == 0 || colors == null || colors.Length == 0) return;
