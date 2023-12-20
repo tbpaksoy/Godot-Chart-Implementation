@@ -25,4 +25,29 @@ public partial class NodeFreeChart : Control
             QueueRedraw();
         }
     }
+    public float min
+    {
+        get
+        {
+            float min = float.MaxValue;
+            foreach (float f in data)
+            {
+                if (f < min) min = f;
+            }
+            return min;
+        }
+    }
+    public float max
+    {
+        get
+        {
+            float max = float.MinValue;
+            foreach (float f in data)
+            {
+                if (f > max) max = f;
+            }
+            return max;
+        }
+    }
+
 }
