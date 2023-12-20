@@ -25,7 +25,7 @@ Experimental chart system.
 
 ## Node Free Charts
 
-Don't want to use nodes to manipulate data ? No Problem! You can use Node Free Charts as well!
+Don't want to use nodes to manipulate data ? No Problem! You can use Node Free Charts as well! <br/>
 Note : Radar Chart not supported!
 
 ![](Pictures/NodeFreeChart.gif)
