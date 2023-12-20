@@ -16,3 +16,16 @@ Experimental chart system.
 
 **Waterfall Chart:** <br/>
 ![](Pictures/WaterfallChart.PNG)
+
+**Bar Chart** <br/>
+![](Pictures/BarChart.gif)
+
+**Radar Chart** <br/>
+![](Pictures/RadarChart.gif)
+
+## Node Free Charts
+
+Don't want to use nodes to manipulate data ? No Problem! You can use Node Free Charts as well!
+Note : Radar Chart not supported!
+
+![](Pictures/NodeFreeChart.gif)
