@@ -1,17 +1,14 @@
-using System;
 using Godot;
-using Godot.Collections;
 using Date = System.DateOnly;
 [GlobalClass]
 [Tool]
 public partial class ChartDataSource : Node
 {
-    private Chart target;
+    protected Chart target;
     [Export]
     public string name;
     [Export]
     public float value;
-    public Date? date = null;
     public override void _EnterTree()
     {
         if (GetParent() is Chart chart)

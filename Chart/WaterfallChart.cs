@@ -1,10 +1,13 @@
 using Godot;
-using System;
+using System.Collections.Generic;
+using Date = System.DateOnly;
 
 [GlobalClass]
 [Tool]
 public partial class WaterfallChart : Chart
 {
+    private List<Date> dates = new List<Date>();
+    private Date _minDate = Date.MaxValue, _maxDate = Date.MinValue;
     private Color _startAndEndColor, _colorOnDecrease, _colorOnIncrease;
     private bool _writeValues;
     private int _fontSize;
@@ -106,6 +109,24 @@ public partial class WaterfallChart : Chart
         if (min < 0f) DrawLine(new Vector2(0f, zeroPoint), new Vector2(size.X, zeroPoint), new Color(1f, 0f, 0f), width: 2f);
 
 
+    }
+    public override void Add(ChartDataSource source)
+    {
+        base.Add(source);
+        if (source is ChartDataSourceWithDate cdsd)
+        {
+            dates.Add(cdsd.date);
+            if (cdsd.date < _minDate) _minDate = cdsd.date;
+            if (cdsd.date > _maxDate) _maxDate = cdsd.date;
+
+        }
+    }
+    public override void Remove(ChartDataSource source)
+    {
+        int index = sources.IndexOf(source);
+        base.Remove(source);
+        if (index == -1) return;
+        Remove(index);
     }
     private void DrawColumn(int index, Vector2 begin, Vector2 offset, string text = null)
     {

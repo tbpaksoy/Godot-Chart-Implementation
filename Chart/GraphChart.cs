@@ -1,6 +1,7 @@
 using Godot;
 using System.Collections.Generic;
-using Parallel = System.Threading.Tasks.Parallel;
+using Date = System.DateOnly;
+
 #if Test
 using System.Linq;
 using Date = System.DateOnly;
@@ -11,6 +12,8 @@ using DateAndIndex = System.Collections.Generic.Dictionary<System.DateOnly, int>
 [Tool]
 public partial class GraphChart : Chart
 {
+    private List<Date> dates = new List<Date>();
+    private Date _minDate = Date.MaxValue, _maxDate = Date.MinValue;
     private Vector2 _offset;
     private bool _drawGrid;
     private Vector2 _gridLength;
@@ -166,41 +169,6 @@ public partial class GraphChart : Chart
             float zeroPoint = -min / (min - max) * size.Y + size.Y + offset.Y / 2f;
             DrawLine(new Vector2(offset.X / 2f, zeroPoint), new Vector2(size.X + offset.X / 2f, zeroPoint), new Color(1f, 0f, 0f), 2f);
         }
-        if (!ableToOrderByDate)
-        {
-
-            float divider = max - min;
-            divider = divider == 0 ? 1 : divider;
-            float xBegin = offset.X, xEnd = size.X, yBegin = size.Y, yEnd = offset.Y;
-            for (int i = 0; i < data.Count; i++)
-            {
-                float x = xBegin + (float)i / (data.Count - 1) * (xEnd - xBegin);
-                float y = yBegin + (data[i] - min) / divider * (yEnd - yBegin);
-                points.Add(new Vector2(x, y));
-            }
-
-        }
-#if Test
-        else
-        {
-            DateList dateList = sourceAndDate.Values.ToList();
-            DateAndIndex dateAndIndex = new DateAndIndex();
-            for (int i = 0, j = 0; i < dateList.Count; i++)
-            {
-                dateAndIndex.Add(dateList[i], j);
-                j++;
-            }
-            DateList keys = dateAndIndex.Keys.OrderBy(d => d.DayNumber).ToList();
-            float widthPerDay = size.Y / (keys.Max().DayNumber - keys.Min().DayNumber);
-            float x = 0f;
-            for (int i = 0; i < keys.Count; i++)
-            {
-                float y = data[dateAndIndex[keys[i]]] / (min - max);
-                points.Add(new Vector2(x, y * size.Y + size.Y));
-                x += (keys[(i + 1) % i].DayNumber - keys[i].DayNumber) * widthPerDay;
-            }
-        }
-#endif
         for (int i = 0; i < points.Count - 1; i++)
         {
 

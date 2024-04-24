@@ -1,9 +1,12 @@
 using Godot;
 using System.Collections.Generic;
+using Date = System.DateOnly;
 [GlobalClass]
 [Tool]
 public partial class PieChart : Chart
 {
+    private List<Date> dates = new List<Date>();
+    private Date _minDate = Date.MaxValue, _maxDate = Date.MinValue;
     private Color[] _colors;
     [Export]
     public Color[] colors
@@ -15,10 +18,10 @@ public partial class PieChart : Chart
             QueueRedraw();
         }
     }
-
     public override void _Draw()
     {
-        if (min < 0f) return;
+
+        if (sources.Count < 2 && min < 0f) return;
         float total = 0;
         foreach (float f in data)
             total += f;
@@ -51,6 +54,26 @@ public partial class PieChart : Chart
             }
         }
     }
+    protected override bool AbleToDrawByDate() => false;
+    public override void Add(ChartDataSource source)
+    {
+        base.Add(source);
+        if (source is ChartDataSourceWithDate cdsd)
+        {
+            dates.Add(cdsd.date);
+            if (cdsd.date < _minDate) _minDate = cdsd.date;
+            if (cdsd.date > _maxDate) _maxDate = cdsd.date;
+
+        }
+    }
+    public override void Remove(ChartDataSource source)
+    {
+        int index = sources.IndexOf(source);
+        base.Remove(source);
+        if (index == -1) return;
+        Remove(index);
+    }
+
     private void DrawArcPoly(Vector2 center, float radius, float angleFrom, float angleTo, Color color)
     {
         int nbPoints = 32;
