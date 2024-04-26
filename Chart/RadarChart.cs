@@ -1,7 +1,6 @@
 using Godot;
 using Godot.Collections;
-[GlobalClass]
-[Tool]
+[GlobalClass, Tool]
 public partial class RadarChart : Chart
 {
     [Export]

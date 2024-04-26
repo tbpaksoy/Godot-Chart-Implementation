@@ -5,10 +5,13 @@ using Date = System.DateOnly;
 [GlobalClass]
 public abstract partial class Chart : Control
 {
+    #region data
     protected Array<float> data = new Array<float>();
     protected Array<string> names = new Array<string>();
     protected Array<ChartDataSource> sources = new Array<ChartDataSource>();
     protected float min = float.MaxValue, max = float.MinValue;
+    #endregion
+    #region methods
     public virtual void Add(ChartDataSource source)
     {
         sources.Add(source);
@@ -73,10 +76,6 @@ public abstract partial class Chart : Control
         }
         return true;
     }
-    public override void _Ready()
-    {
-        ChildOrderChanged += Update;
-    }
     protected int[] DateOrder(bool descending = false)
     {
         List<(Date, int)> dates = new List<(Date, int)>();
@@ -96,4 +95,11 @@ public abstract partial class Chart : Control
         }
         return order;
     }
+    #endregion
+    #region Godot methods
+    public override void _Ready()
+    {
+        ChildOrderChanged += Update;
+    }
+    #endregion
 }

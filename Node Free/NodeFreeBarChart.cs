@@ -1,9 +1,8 @@
 using Godot;
-using System.Collections.Generic;
-[Tool]
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class NodeFreeBarChart : NodeFreeChart
 {
+    #region display options
     private Color[] colors;
     private bool writeValues;
     private Vector2 valueTextOffset;
@@ -37,6 +36,8 @@ public partial class NodeFreeBarChart : NodeFreeChart
             QueueRedraw();
         }
     }
+    #endregion
+    #region Godot methods
     public override void _Draw()
     {
         float min = float.MaxValue, max = float.MinValue;
@@ -69,6 +70,8 @@ public partial class NodeFreeBarChart : NodeFreeChart
             }
         }
     }
+    #endregion
+    #region methods
     private void DrawColumn(Vector2 begin, Vector2 offset, Color color, string text = null)
     {
         Vector2[] points = new Vector2[]
@@ -85,4 +88,5 @@ public partial class NodeFreeBarChart : NodeFreeChart
             DrawString(GetThemeDefaultFont(), (points[0] + points[3]) / 2f, text);
         }
     }
+    #endregion
 }

@@ -3,6 +3,7 @@ using Date = System.DateOnly;
 [GlobalClass, Tool]
 public partial class ChartDataSourceWithDate : ChartDataSource
 {
+    #region data
     private enum Unit
     {
         Day,
@@ -43,6 +44,8 @@ public partial class ChartDataSourceWithDate : ChartDataSource
             target.QueueRedraw();
         }
     }
+    #endregion
+    #region methods
     private void Update(Unit unit, int value)
     {
 
@@ -69,4 +72,5 @@ public partial class ChartDataSourceWithDate : ChartDataSource
             GD.PushError("Invalid date");
         }
     }
+    #endregion
 }

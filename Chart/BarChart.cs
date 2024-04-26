@@ -1,13 +1,14 @@
 using Godot;
 using Date = System.DateOnly;
 using System.Collections.Generic;
-using System;
-[Tool]
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class BarChart : Chart
 {
+    #region data
     private List<Date> dates = new List<Date>();
     private Date _minDate = Date.MaxValue, _maxDate = Date.MinValue;
+    #endregion
+    #region display options
     private Color[] colors;
     private bool writeValues, writeDates;
     private Vector2 valueTextOffset;
@@ -51,6 +52,8 @@ public partial class BarChart : Chart
             QueueRedraw();
         }
     }
+    #endregion
+    #region Godot methods
     public override void _Draw()
     {
 
@@ -115,6 +118,8 @@ public partial class BarChart : Chart
             }
         }
     }
+    #endregion
+    #region methods
     public override void Add(ChartDataSource source)
     {
         base.Add(source);
@@ -129,22 +134,6 @@ public partial class BarChart : Chart
         base.Remove(source);
         if (index == -1) return;
         Remove(index);
-    }
-    private void DrawColumn(Vector2 begin, Vector2 offset, Color color, string text = null)
-    {
-        Vector2[] points = new Vector2[]
-        {
-            begin, begin + offset with {Y = 0f}, begin + offset, begin + offset with {X = 0f}
-        };
-        Vector2[] uvs = new Vector2[]
-        {
-            Vector2.Zero, Vector2.Down, Vector2.One, Vector2.Right
-        };
-        DrawPrimitive(points, new Color[] { color, color, color, color }, uvs);
-        if (text != null)
-        {
-            DrawString(GetThemeDefaultFont(), (points[0] + points[3]) / 2f, text);
-        }
     }
     private void DrawColumn(Vector2 begin, Vector2 offset, Color color, out Vector2 top, out Vector2 middle, out Vector2 down, string text = null)
     {
@@ -176,4 +165,5 @@ public partial class BarChart : Chart
         dates.Clear();
         base.Update();
     }
+    #endregion
 }

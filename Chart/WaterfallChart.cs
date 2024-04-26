@@ -1,13 +1,14 @@
 using Godot;
 using System.Collections.Generic;
 using Date = System.DateOnly;
-
-[GlobalClass]
-[Tool]
+[GlobalClass, Tool]
 public partial class WaterfallChart : Chart
 {
+    #region data
     private List<Date> dates = new List<Date>();
     private Date _minDate = Date.MaxValue, _maxDate = Date.MinValue;
+    #endregion
+    #region display options
     private Color _startAndEndColor, _colorOnDecrease, _colorOnIncrease;
     private bool _writeValues;
     private int _fontSize;
@@ -72,7 +73,8 @@ public partial class WaterfallChart : Chart
             QueueRedraw();
         }
     }
-
+    #endregion
+    #region Godot methods
     public override void _Draw()
     {
 
@@ -110,6 +112,8 @@ public partial class WaterfallChart : Chart
 
 
     }
+    #endregion
+    #region methods
     public override void Add(ChartDataSource source)
     {
         base.Add(source);
@@ -149,4 +153,5 @@ public partial class WaterfallChart : Chart
         if (text == null) return;
         DrawString(GetThemeDefaultFont(), (points[0] + points[3]) / 2f + valueTextOffset, text, alignment: HorizontalAlignment.Fill, fontSize: fontSize);
     }
+    #endregion
 }

@@ -1,9 +1,9 @@
 using Godot;
 using System.Collections.Generic;
-[GlobalClass]
-[Tool]
+[GlobalClass, Tool]
 public partial class NodeFreeGraphChart : NodeFreeChart
 {
+    #region display options
     private Vector2 _offset;
     private bool _drawGrid;
     private Vector2 _gridLength;
@@ -142,6 +142,8 @@ public partial class NodeFreeGraphChart : NodeFreeChart
             QueueRedraw();
         }
     }
+    #endregion    
+    #region Godot methods
     public override void _Draw()
     {
         if (data == null || data.Count == 0) return;
@@ -192,4 +194,5 @@ public partial class NodeFreeGraphChart : NodeFreeChart
         }
 
     }
+    #endregion
 }
