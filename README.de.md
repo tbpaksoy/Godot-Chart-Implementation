@@ -27,7 +27,7 @@ Experimentelles Kartensystem
 
 ## Knotenfreie Diagramme
 
-Wollen Sie nicht Knoten verwenden zu Daten mani manipulieren ? Kein Problem! Sie können knotenfreie Diagramme verwenden auch! <br/>
+Wollen Sie nicht Knoten verwenden zu Daten manipulieren ? Kein Problem! Sie können knotenfreie Diagramme verwenden auch! <br/>
 Hinweis : Radardiagramm ist nicht unterstützt!
 
 ![](Pictures/NodeFreeChart.gif)
