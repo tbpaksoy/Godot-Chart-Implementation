@@ -13,7 +13,6 @@ using DateAndIndex = System.Collections.Generic.Dictionary<System.DateOnly, int>
 public partial class GraphChart : Chart
 {
     private List<Date> dates = new List<Date>();
-    private Date _minDate = Date.MaxValue, _maxDate = Date.MinValue;
     private Vector2 _offset;
     private bool _drawGrid;
     private Vector2 _gridLength;

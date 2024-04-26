@@ -116,9 +116,6 @@ public partial class WaterfallChart : Chart
         if (source is ChartDataSourceWithDate cdsd)
         {
             dates.Add(cdsd.date);
-            if (cdsd.date < _minDate) _minDate = cdsd.date;
-            if (cdsd.date > _maxDate) _maxDate = cdsd.date;
-
         }
     }
     public override void Remove(ChartDataSource source)

@@ -9,7 +9,7 @@ public partial class ChartDataSourceWithDate : ChartDataSource
         Month,
         Year
     }
-    public Date date { get; private set; }
+    public Date date { get; private set; } = default;
     [Export(hint: PropertyHint.Range, hintString: "1,31")]
     public int Day
     {
@@ -17,6 +17,7 @@ public partial class ChartDataSourceWithDate : ChartDataSource
         set
         {
             Update(Unit.Day, value);
+            target.Update();
             target.QueueRedraw();
         }
     }
@@ -27,6 +28,7 @@ public partial class ChartDataSourceWithDate : ChartDataSource
         set
         {
             Update(Unit.Month, value);
+            target.Update();
             target.QueueRedraw();
         }
     }
@@ -37,6 +39,7 @@ public partial class ChartDataSourceWithDate : ChartDataSource
         set
         {
             Update(Unit.Year, value);
+            target.Update();
             target.QueueRedraw();
         }
     }

@@ -54,7 +54,7 @@ public abstract partial class Chart : Control
         }
         if (redraw) QueueRedraw();
     }
-    public void Update()
+    public virtual void Update()
     {
         data.Clear();
         names.Clear();
