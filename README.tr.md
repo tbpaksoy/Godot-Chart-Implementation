@@ -7,7 +7,7 @@ Deneysel çizelge sistemi.
 3. Çizelgeyi ve çizelgeye çocuğu olarak çizelge veri kaynağını ekleyin. <br/>
 4. İstediğiniz kadar ayarlar ile oynayın! <br/>
 
-## Çizelge Türlei
+## Çizelge Türleri
 **Graf Çizelgesi:** <br/>
 ![](Pictures/GraphChart.PNG) <br/>
 
