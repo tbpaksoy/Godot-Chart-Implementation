@@ -1,3 +1,5 @@
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/tbpaksoy/Godot-Chart-Implementation/blob/main/README.md)
+[![tr](https://img.shields.io/badge/lang-tr-red.svg)](https://github.com/tbpaksoy/Godot-Chart-Implementation/blob/main/README.tr.md)
 # Godot-Chart-Implementation
 Experimentelles Kartensystem
 
