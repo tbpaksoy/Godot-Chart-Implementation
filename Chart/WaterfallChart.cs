@@ -84,32 +84,66 @@ public partial class WaterfallChart : Chart
         float positiveToNegativeRatio = max / (max + Mathf.Abs(min));
         float zeroPoint = size.Y * positiveToNegativeRatio;
         if (xPerColumn == 0f || yPerValue == 0f) return;
-        if (Mathf.Sign(min) >= 0f && Mathf.Sign(max) >= 0f)
+        if (AbleToDrawByDate())
         {
-            DrawColumn(0, new Vector2(0f, size.Y), new Vector2(xPerColumn, -Mathf.Abs(yPerValue * data[0])), writeValues ? data[0].ToString() : null);
-            float total = data[0] * yPerValue;
-            for (int i = 1; i < data.Count; i++)
+            int[] order = DateOrder();
+            if (Mathf.Sign(min) >= 0f && Mathf.Sign(max) >= 0f)
             {
-                float diffrence = data[i - 1] - data[i];
-                DrawColumn(i, new Vector2(xPerColumn * i, size.Y - total), new Vector2(xPerColumn, diffrence * yPerValue), diffrence < 0 ? colorOnIncrease : colorOnDecrease, writeValues ? (-diffrence).ToString() : null);
-                total -= yPerValue * diffrence;
+                DrawColumn(order[0], new Vector2(0f, size.Y), new Vector2(xPerColumn, -Mathf.Abs(yPerValue * data[order[0]])), writeValues ? data[order[0]].ToString() : null);
+                float total = data[order[0]] * yPerValue;
+                for (int i = 1; i < data.Count; i++)
+                {
+                    int index = order[i], before = order[i - 1];
+                    float diffrence = data[before] - data[index];
+                    DrawColumn(index, new Vector2(xPerColumn * index, size.Y - total), new Vector2(xPerColumn, diffrence * yPerValue), diffrence < 0 ? colorOnIncrease : colorOnDecrease, writeValues ? (-diffrence).ToString() : null);
+                    total -= yPerValue * diffrence;
+                }
+                DrawColumn(order[^1], size - new Vector2(xPerColumn, 0f), new Vector2(xPerColumn, -Mathf.Abs(yPerValue * data[order[^1]])), writeValues ? data[order[^1]].ToString() : null);
             }
-            DrawColumn(data.Count - 1, size - new Vector2(xPerColumn, 0f), new Vector2(xPerColumn, -Mathf.Abs(yPerValue * data[^1])), writeValues ? data[^1].ToString() : null);
+            else if (Mathf.Sign(min) >= 0f ^ Mathf.Sign(max) >= 0f)
+            {
+
+                DrawColumn(order[0], new Vector2(0f, zeroPoint - data[order[0]] * yPerValue), new Vector2(xPerColumn, yPerValue * data[order[0]]), writeValues ? data[order[0]].ToString() : null);
+                float total = zeroPoint - data[0] * yPerValue;
+                for (int i = 1; i < data.Count; i++)
+                {
+                    int index = order[i], before = order[i - 1];
+                    float diffrence = data[before] - data[index];
+                    DrawColumn(index, new Vector2(xPerColumn * index, total), new Vector2(xPerColumn, diffrence * yPerValue), diffrence < 0 ? colorOnIncrease : colorOnDecrease, writeValues ? (-diffrence).ToString() : null);
+                    total += yPerValue * diffrence;
+                }
+                DrawColumn(order[^1], new Vector2(size.X - xPerColumn, zeroPoint - yPerValue * data[order[^1]]), new Vector2(xPerColumn, yPerValue * data[order[^1]]), writeValues ? data[order[^1]].ToString() : null);
+            }
+
         }
-        else if (Mathf.Sign(min) >= 0f ^ Mathf.Sign(max) >= 0f)
+        else
         {
-            DrawColumn(0, new Vector2(0f, zeroPoint - data[0] * yPerValue), new Vector2(xPerColumn, yPerValue * data[0]), writeValues ? data[0].ToString() : null);
-            float total = zeroPoint - data[0] * yPerValue;
-            for (int i = 1; i < data.Count; i++)
+            if (Mathf.Sign(min) >= 0f && Mathf.Sign(max) >= 0f)
             {
-                float diffrence = data[i - 1] - data[i];
-                DrawColumn(i, new Vector2(xPerColumn * i, total), new Vector2(xPerColumn, diffrence * yPerValue), diffrence < 0 ? colorOnIncrease : colorOnDecrease, writeValues ? (-diffrence).ToString() : null);
-                total += yPerValue * diffrence;
+                DrawColumn(0, new Vector2(0f, size.Y), new Vector2(xPerColumn, -Mathf.Abs(yPerValue * data[0])), writeValues ? data[0].ToString() : null);
+                float total = data[0] * yPerValue;
+                for (int i = 1; i < data.Count; i++)
+                {
+                    float diffrence = data[i - 1] - data[i];
+                    DrawColumn(i, new Vector2(xPerColumn * i, size.Y - total), new Vector2(xPerColumn, diffrence * yPerValue), diffrence < 0 ? colorOnIncrease : colorOnDecrease, writeValues ? (-diffrence).ToString() : null);
+                    total -= yPerValue * diffrence;
+                }
+                DrawColumn(data.Count - 1, size - new Vector2(xPerColumn, 0f), new Vector2(xPerColumn, -Mathf.Abs(yPerValue * data[^1])), writeValues ? data[^1].ToString() : null);
             }
-            DrawColumn(data.Count - 1, new Vector2(size.X - xPerColumn, zeroPoint - yPerValue * data[^1]), new Vector2(xPerColumn, yPerValue * data[^1]), writeValues ? data[^1].ToString() : null);
+            else if (Mathf.Sign(min) >= 0f ^ Mathf.Sign(max) >= 0f)
+            {
+                DrawColumn(0, new Vector2(0f, zeroPoint - data[0] * yPerValue), new Vector2(xPerColumn, yPerValue * data[0]), writeValues ? data[0].ToString() : null);
+                float total = zeroPoint - data[0] * yPerValue;
+                for (int i = 1; i < data.Count; i++)
+                {
+                    float diffrence = data[i - 1] - data[i];
+                    DrawColumn(i, new Vector2(xPerColumn * i, total), new Vector2(xPerColumn, diffrence * yPerValue), diffrence < 0 ? colorOnIncrease : colorOnDecrease, writeValues ? (-diffrence).ToString() : null);
+                    total += yPerValue * diffrence;
+                }
+                DrawColumn(data.Count - 1, new Vector2(size.X - xPerColumn, zeroPoint - yPerValue * data[^1]), new Vector2(xPerColumn, yPerValue * data[^1]), writeValues ? data[^1].ToString() : null);
+            }
         }
         if (min < 0f) DrawLine(new Vector2(0f, zeroPoint), new Vector2(size.X, zeroPoint), new Color(1f, 0f, 0f), width: 2f);
-
 
     }
     #endregion
