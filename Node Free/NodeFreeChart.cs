@@ -3,6 +3,7 @@ using Godot.Collections;
 [GlobalClass]
 public partial class NodeFreeChart : Control
 {
+    #region data
     protected Array<float> data = new Array<float>();
     protected Array<string> names = new Array<string>();
     [Export]
@@ -49,5 +50,5 @@ public partial class NodeFreeChart : Control
             return max;
         }
     }
-
+    #endregion
 }

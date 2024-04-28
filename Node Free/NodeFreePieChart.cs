@@ -1,10 +1,9 @@
 using Godot;
 using System.Collections.Generic;
-
-[GlobalClass]
-[Tool]
+[GlobalClass, Tool]
 public partial class NodeFreePieChart : NodeFreeChart
 {
+    #region display options
     private Color[] _colors;
     [Export]
     public Color[] colors
@@ -16,6 +15,8 @@ public partial class NodeFreePieChart : NodeFreeChart
             QueueRedraw();
         }
     }
+    #endregion
+    #region Godot methods
     public override void _Draw()
     {
         if (min < 0f) return;
@@ -51,7 +52,8 @@ public partial class NodeFreePieChart : NodeFreeChart
             }
         }
     }
-
+    #endregion
+    #region methods
     private void DrawArcPoly(Vector2 center, float radius, float angleFrom, float angleTo, Color color)
     {
         int nbPoints = 32;
@@ -79,4 +81,5 @@ public partial class NodeFreePieChart : NodeFreeChart
         DrawPrimitive(points, new Color[] { color, color, color, color }, uvs);
         DrawString(GetThemeDefaultFont(), points[2], name, alignment: HorizontalAlignment.Center);
     }
+    #endregion
 }

@@ -1,7 +1,6 @@
 using Godot;
 using Godot.Collections;
-[GlobalClass]
-[Tool]
+[GlobalClass, Tool]
 public partial class RadarChart : Chart
 {
     [Export]
@@ -54,6 +53,7 @@ public partial class RadarChart : Chart
             limits.Add(lcds.maxLimit);
         }
     }
+    protected override bool AbleToDrawByDate() => false;
     private void CreateRadar()
     {
         float period = 2f * Mathf.Pi / data.Count;

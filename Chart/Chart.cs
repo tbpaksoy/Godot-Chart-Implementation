@@ -1,24 +1,22 @@
 using Godot;
 using Godot.Collections;
-using SourceAndDate = System.Collections.Generic.Dictionary<ChartDataSource, System.DateOnly>;
-using Enumerable = System.Linq.Enumerable;
+using System.Collections.Generic;
+using Date = System.DateOnly;
 [GlobalClass]
 public abstract partial class Chart : Control
 {
+    #region data
     protected Array<float> data = new Array<float>();
     protected Array<string> names = new Array<string>();
     protected Array<ChartDataSource> sources = new Array<ChartDataSource>();
-    protected SourceAndDate sourceAndDate = new SourceAndDate();
-    protected bool ableToOrderByDate { get; private set; } = false;
     protected float min = float.MaxValue, max = float.MinValue;
+    #endregion
+    #region methods
     public virtual void Add(ChartDataSource source)
     {
         sources.Add(source);
         data.Add(source.value);
         names.Add(source.name);
-        if (source.date != null)
-            sourceAndDate.Add(source, (System.DateOnly)source.date);
-        else ableToOrderByDate = false;
         if (source.value < min) min = source.value;
         if (source.value > max) max = source.value;
     }
@@ -35,8 +33,6 @@ public abstract partial class Chart : Control
         sources.RemoveAt(index);
         data.RemoveAt(index);
         names.RemoveAt(index);
-        if (sourceAndDate.ContainsKey(cds)) sourceAndDate.Remove(cds);
-        ableToOrderByDate = sources.Count == sourceAndDate.Count && Enumerable.SequenceEqual(sources, sourceAndDate.Keys);
     }
     public virtual void UpdateProp(ChartDataSource source)
     {
@@ -61,20 +57,49 @@ public abstract partial class Chart : Control
         }
         if (redraw) QueueRedraw();
     }
-    public void Update()
+    public virtual void Update()
     {
         data.Clear();
         names.Clear();
         sources.Clear();
-        sourceAndDate.Clear();
         max = float.MinValue;
         min = float.MaxValue;
         foreach (Node node in GetChildren())
             if (node is ChartDataSource cds) Add(cds);
         QueueRedraw();
     }
+    protected virtual bool AbleToDrawByDate()
+    {
+        foreach (Node node in GetChildren())
+        {
+            if (node is ChartDataSource cds && cds is not ChartDataSourceWithDate) return false;
+        }
+        return true;
+    }
+    protected int[] DateOrder(bool descending = false)
+    {
+        List<(Date, int)> dates = new List<(Date, int)>();
+        for (int i = 0; i < sources.Count; i++)
+        {
+            if (sources[i] is ChartDataSourceWithDate cds)
+            {
+                dates.Add((cds.date, i));
+            }
+        }
+        dates.Sort((a, b) => a.Item1.CompareTo(b.Item1));
+        if (descending) dates.Reverse();
+        int[] order = new int[dates.Count];
+        for (int i = 0; i < dates.Count; i++)
+        {
+            order[i] = dates[i].Item2;
+        }
+        return order;
+    }
+    #endregion
+    #region Godot methods
     public override void _Ready()
     {
         ChildOrderChanged += Update;
     }
+    #endregion
 }

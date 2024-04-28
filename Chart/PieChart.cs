@@ -1,9 +1,14 @@
 using Godot;
 using System.Collections.Generic;
-[GlobalClass]
-[Tool]
+using Date = System.DateOnly;
+[GlobalClass, Tool]
 public partial class PieChart : Chart
 {
+    #region data
+    private List<Date> dates = new List<Date>();
+    private Date _minDate = Date.MaxValue, _maxDate = Date.MinValue;
+    #endregion
+    #region display options
     private Color[] _colors;
     [Export]
     public Color[] colors
@@ -15,10 +20,12 @@ public partial class PieChart : Chart
             QueueRedraw();
         }
     }
-
+    #endregion
+    #region Godot methods
     public override void _Draw()
     {
-        if (min < 0f) return;
+
+        if (sources.Count < 2 && min < 0f) return;
         float total = 0;
         foreach (float f in data)
             total += f;
@@ -51,6 +58,27 @@ public partial class PieChart : Chart
             }
         }
     }
+    #endregion
+    #region methods
+    protected override bool AbleToDrawByDate() => false;
+    public override void Add(ChartDataSource source)
+    {
+        base.Add(source);
+        if (source is ChartDataSourceWithDate cdsd)
+        {
+            dates.Add(cdsd.date);
+            if (cdsd.date < _minDate) _minDate = cdsd.date;
+            if (cdsd.date > _maxDate) _maxDate = cdsd.date;
+
+        }
+    }
+    public override void Remove(ChartDataSource source)
+    {
+        int index = sources.IndexOf(source);
+        base.Remove(source);
+        if (index == -1) return;
+        Remove(index);
+    }
     private void DrawArcPoly(Vector2 center, float radius, float angleFrom, float angleTo, Color color)
     {
         int nbPoints = 32;
@@ -78,4 +106,5 @@ public partial class PieChart : Chart
         DrawPrimitive(points, new Color[] { color, color, color, color }, uvs);
         DrawString(GetThemeDefaultFont(), points[2], name, alignment: HorizontalAlignment.Center);
     }
+    #endregion
 }

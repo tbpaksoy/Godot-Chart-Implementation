@@ -1,9 +1,8 @@
 using Godot;
-using System.Collections.Generic;
-[GlobalClass]
-[Tool]
+[GlobalClass, Tool]
 public partial class NodeFreeWaterfallChart : NodeFreeChart
 {
+    #region display options
     private Color _startAndEndColor, _colorOnDecrease, _colorOnIncrease;
     private bool _writeValues;
     private int _fontSize;
@@ -68,7 +67,8 @@ public partial class NodeFreeWaterfallChart : NodeFreeChart
             QueueRedraw();
         }
     }
-
+    #endregion
+    #region Godot methods
     public override void _Draw()
     {
 
@@ -106,7 +106,8 @@ public partial class NodeFreeWaterfallChart : NodeFreeChart
 
 
     }
-
+    #endregion
+    #region methods
     private void DrawColumn(int index, Vector2 begin, Vector2 offset, string text = null)
     {
         float f = data[index];
@@ -131,4 +132,5 @@ public partial class NodeFreeWaterfallChart : NodeFreeChart
         if (text == null) return;
         DrawString(GetThemeDefaultFont(), (points[0] + points[3]) / 2f + valueTextOffset, text, alignment: HorizontalAlignment.Fill, fontSize: fontSize);
     }
+    #endregion
 }
