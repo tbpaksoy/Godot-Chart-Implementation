@@ -90,7 +90,7 @@ public partial class TimedBarChart : BarChart
                 }
 
                 int intervalMonth = _maxDate.Month + _maxDate.Year * 12 - (_minDate.Month + _minDate.Year * 12) + 1;
-                float xPerColumnMonth = Size.X / intervalMonth, yPerValueMonth = Size.Y / (Mathf.Max(max, 0f) - Mathf.Min(min, 0f));
+                float xPerColumnMonth = Size.X / intervalMonth, yPerValueMonth = Size.Y / (Mathf.Max(montlyMax, 0f) - Mathf.Min(montlyMin, 0f));
                 for (int i = _minDate.Month + _minDate.Year * 12, k = 0, j = 0; i <= _maxDate.Month + _maxDate.Year * 12; i++, j++)
                 {
                     if (!monthlyData.ContainsKey(i)) continue;
@@ -108,8 +108,51 @@ public partial class TimedBarChart : BarChart
                                 texts[0] = monthlyData[i].ToString();
                                 break;
                         }
+                    if (writeDates)
+                        texts[1] = (i % 12 + 1).ToString() + "." + (i / 12).ToString();
+                    DrawTexts(texts[0], texts[1], texts[2], top, middle, down);
                 }
 
+                break;
+            case ChartDataSourceWithDate.Unit.Year:
+                Dictionary<int, float> yearlyData = CalculateYearlyData();
+                if (yearlyData.Count < 2) return;
+
+                float yearlyMax = float.MinValue, yearlyMin = float.MaxValue;
+                foreach (var value in yearlyData.Values)
+                {
+                    if (value > yearlyMax) yearlyMax = value;
+                    if (value < yearlyMin) yearlyMin = value;
+                }
+                positiveRatio = (yearlyMax <= 0 && yearlyMin >= 0f) ? 1f : yearlyMax / (yearlyMax - yearlyMin);
+                positiveRatio = Mathf.Clamp(positiveRatio, 0f, 1f);
+                if (yearlyMin < 0f)
+                {
+                    DrawLine(new Vector2(0f, positiveRatio * Size.Y), new Vector2(Size.X, Size.Y * positiveRatio), new Color(1f, 0f, 0f));
+                }
+                int intervalYear = _maxDate.Year - _minDate.Year + 1;
+                float xPerColumnYear = Size.X / intervalYear, yPerValueYear = Size.Y / (Mathf.Max(yearlyMax, 0f) - Mathf.Min(yearlyMin, 0f));
+                for (int i = _minDate.Year, k = 0, j = 0; i <= _maxDate.Year; i++, j++)
+                {
+                    if (!yearlyData.ContainsKey(i)) continue;
+                    Vector2 begin = new Vector2(j * xPerColumnYear, Size.Y * positiveRatio);
+                    Vector2 offset = new Vector2(xPerColumnYear, -yearlyData[i] * yPerValueYear);
+                    DrawColumn(begin, offset, colors[k++ % colors.Length], out Vector2 top, out Vector2 middle, out Vector2 down);
+                    string[] texts = new string[] { null, null, null };
+                    if (writeValues)
+                        switch (yearlyData[i])
+                        {
+                            case < 0:
+                                texts[2] = yearlyData[i].ToString();
+                                break;
+                            case > 0:
+                                texts[0] = yearlyData[i].ToString();
+                                break;
+                        }
+                    if (writeDates)
+                        texts[1] = i.ToString();
+                    DrawTexts(texts[0], texts[1], texts[2], top, middle, down);
+                }
                 break;
         }
 
