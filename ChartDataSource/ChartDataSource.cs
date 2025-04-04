@@ -1,6 +1,6 @@
 using Godot;
 using Date = System.DateOnly;
-[GlobalClass, Tool]
+[GlobalClass, Icon("res://Icons/ChartDataSource.svg"), Tool]
 public partial class ChartDataSource : Node
 {
     #region data

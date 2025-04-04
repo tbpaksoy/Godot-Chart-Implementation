@@ -12,7 +12,6 @@ using DateAndIndex = System.Collections.Generic.Dictionary<System.DateOnly, int>
 public partial class GraphChart : Chart
 {
     #region data
-    private List<Date> dates = new List<Date>();
     private Date minDate = Date.MaxValue, maxDate = Date.MinValue;
     #endregion
     #region  display options
@@ -176,7 +175,7 @@ public partial class GraphChart : Chart
         }
         if (AbleToDrawByDate())
         {
-            int[] order = DateOrder();
+            int[] order = GetDateOrder();
             List<float> normalized = new List<float>();
             foreach (Date date in dates)
                 normalized.Add((date.DayNumber - minDate.DayNumber) / (float)(maxDate.DayNumber - minDate.DayNumber));

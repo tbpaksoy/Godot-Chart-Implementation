@@ -1,5 +1,5 @@
 using Godot;
-[GlobalClass, Tool]
+[GlobalClass, Icon("res://Icons/LimitedChartDataSource.svg"), Tool]
 public partial class LimitedChartDataSource : ChartDataSource
 {
     #region data

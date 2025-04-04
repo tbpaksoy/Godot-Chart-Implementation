@@ -4,14 +4,10 @@ using System.Collections.Generic;
 [GlobalClass, Tool]
 public partial class BarChart : Chart
 {
-    #region data
-    private List<Date> dates = new List<Date>();
-    private Date _minDate = Date.MaxValue, _maxDate = Date.MinValue;
-    #endregion
     #region display options
-    private Color[] colors;
-    private bool writeValues, writeDates;
-    private Vector2 valueTextOffset;
+    protected Color[] colors;
+    protected bool writeValues, writeDates;
+    protected Vector2 valueTextOffset;
     [Export]
     public Color[] Colors
     {
@@ -69,7 +65,7 @@ public partial class BarChart : Chart
         float xPerColumn = Size.X / data.Count, yPerValue = Size.Y / (Mathf.Max(max, 0f) - Mathf.Min(min, 0f));
         if (AbleToDrawByDate())
         {
-            int[] order = DateOrder();
+            int[] order = GetDateOrder();
             for (int i = 0; i < data.Count; i++)
             {
                 int index = order[i];
@@ -135,7 +131,7 @@ public partial class BarChart : Chart
         if (index == -1) return;
         Remove(index);
     }
-    private void DrawColumn(Vector2 begin, Vector2 offset, Color color, out Vector2 top, out Vector2 middle, out Vector2 down, string text = null)
+    protected void DrawColumn(Vector2 begin, Vector2 offset, Color color, out Vector2 top, out Vector2 middle, out Vector2 down, string text = null)
     {
         Vector2[] points = new Vector2[]
         {
@@ -154,7 +150,7 @@ public partial class BarChart : Chart
         top = middle with { Y = Mathf.Min(begin.Y, begin.Y + offset.Y) };
         down = middle with { Y = Mathf.Max(begin.Y, begin.Y + offset.Y) };
     }
-    private void DrawTexts(string topText, string middleText, string downText, Vector2 top, Vector2 middle, Vector2 down, Color? color = null)
+    protected void DrawTexts(string topText, string middleText, string downText, Vector2 top, Vector2 middle, Vector2 down, Color? color = null)
     {
         if (topText != null) DrawString(GetThemeDefaultFont(), top, topText, HorizontalAlignment.Center, modulate: color);
         if (middleText != null) DrawString(GetThemeDefaultFont(), middle, middleText, HorizontalAlignment.Center, modulate: color);

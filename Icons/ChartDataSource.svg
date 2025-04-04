@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="8.5548687mm"
+   height="7.0555606mm"
+   viewBox="0 0 8.5548687 7.0555606"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="GDCharts Logos.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#000000"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#bebebe"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="2.4403312"
+     inkscape:cx="62.696409"
+     inkscape:cy="104.49401"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showguides="true">
+    <sodipodi:guide
+       position="-46.0046,30.40672"
+       orientation="0,-1"
+       id="guide623"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <rect
+       x="20"
+       y="28"
+       width="464"
+       height="353"
+       id="rect371" />
+  </defs>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="ChartDataSource"
+     style="display:inline"
+     transform="translate(-5.9972228,-11.64167)">
+    <g
+       aria-label="01"
+       transform="scale(0.26458333)"
+       id="text369"
+       style="font-size:42.6667px;font-family:Unifont;-inkscape-font-specification:Unifont;letter-spacing:-5px;white-space:pre;shape-inside:url(#rect371);display:inline;fill:#e0e0e0;fill-rule:evenodd;stroke-width:7.55906;stroke-linecap:round">
+      <path
+         d="m 28.000006,44.000012 v 2.666669 h -2.666669 v 2.666668 h -2.666668 v 16.000012 h 2.666668 v 2.666669 h 2.666669 v 2.666668 h 5.333337 V 68.00003 h -5.333337 v -2.666669 h -2.666669 v -2.666669 h 2.666669 v -2.666668 h 2.666669 v -2.666669 h -2.666669 v 2.666669 H 25.333337 V 49.333349 h 2.666669 v -2.666668 h 5.333337 v 2.666668 h 2.666669 v 2.666669 h -2.666669 v 2.666669 h -2.666668 v 2.666668 h 2.666668 v -2.666668 h 2.666669 v 10.666674 h -2.666669 v 2.666669 h 2.666669 v -2.666669 h 2.666669 V 49.333349 h -2.666669 v -2.666668 h -2.666669 v -2.666669 z"
+         id="path1683" />
+      <path
+         d="m 47.000024,44.000012 v 2.666669 h -2.666669 v 2.666668 h -2.666668 v 2.666669 h 2.666668 v -2.666669 h 2.666669 V 68.00003 h -5.333337 v 2.666668 H 55.00003 V 68.00003 H 49.666692 V 44.000012 Z"
+         id="path1685" />
+    </g>
+  </g>
+</svg>
