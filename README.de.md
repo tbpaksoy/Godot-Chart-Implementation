@@ -25,6 +25,9 @@ Experimentelles Kartensystem
 **Radardiagramm** <br/>
 ![](Pictures/RadarChart.gif)
 
+**Zeitgesteuert Balkendiagramm**
+Notiz: Funtionert nur mit Diagrammdaten mit Datum
+
 ## Knotenfreie Diagramme
 
 Wollen Sie nicht Knoten verwenden zu Daten manipulieren ? Kein Problem! Sie können knotenfreie Diagramme verwenden auch! <br/>
