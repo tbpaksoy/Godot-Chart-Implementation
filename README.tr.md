@@ -25,6 +25,10 @@ Deneysel çizelge sistemi.
 **Radar Çizelgesi** <br/>
 ![](Pictures/RadarChart.gif)
 
+**Zamanlanmış Bar Çizelgesi** <br/>
+Not : Yalnızca zamanlanmış çizelge verisiyle çalışır.
+![](Pictures/TimedBarChart.gif)
+
 ## Düğümsüz Çizelgeler
 
 Verileri manipüle etmek için düğüm kullanmak istemiyor musunuz ? Sorun değil! Düğümsüz çizlgeleri de kullanabilrisiniz! <br/>
