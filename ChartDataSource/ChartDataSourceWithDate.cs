@@ -1,10 +1,10 @@
 using Godot;
 using Date = System.DateOnly;
-[GlobalClass, Tool]
+[GlobalClass, Icon("res://Icons/ChartDataSourceWithDate.svg"), Tool]
 public partial class ChartDataSourceWithDate : ChartDataSource
 {
     #region data
-    private enum Unit
+    public enum Unit
     {
         Day,
         Month,

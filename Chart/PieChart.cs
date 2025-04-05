@@ -4,10 +4,7 @@ using Date = System.DateOnly;
 [GlobalClass, Tool]
 public partial class PieChart : Chart
 {
-    #region data
-    private List<Date> dates = new List<Date>();
-    private Date _minDate = Date.MaxValue, _maxDate = Date.MinValue;
-    #endregion
+
     #region display options
     private Color[] _colors;
     [Export]

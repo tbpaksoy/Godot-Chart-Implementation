@@ -4,10 +4,6 @@ using Date = System.DateOnly;
 [GlobalClass, Tool]
 public partial class WaterfallChart : Chart
 {
-    #region data
-    private List<Date> dates = new List<Date>();
-    private Date _minDate = Date.MaxValue, _maxDate = Date.MinValue;
-    #endregion
     #region display options
     private Color _startAndEndColor, _colorOnDecrease, _colorOnIncrease;
     private bool _writeValues;
@@ -86,7 +82,7 @@ public partial class WaterfallChart : Chart
         if (xPerColumn == 0f || yPerValue == 0f) return;
         if (AbleToDrawByDate())
         {
-            int[] order = DateOrder();
+            int[] order = GetDateOrder();
             if (Mathf.Sign(min) >= 0f && Mathf.Sign(max) >= 0f)
             {
                 DrawColumn(order[0], new Vector2(0f, size.Y), new Vector2(xPerColumn, -Mathf.Abs(yPerValue * data[order[0]])), writeValues ? data[order[0]].ToString() : null);

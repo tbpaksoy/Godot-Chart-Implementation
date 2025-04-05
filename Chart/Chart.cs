@@ -10,6 +10,8 @@ public abstract partial class Chart : Control
     protected Array<string> names = new Array<string>();
     protected Array<ChartDataSource> sources = new Array<ChartDataSource>();
     protected float min = float.MaxValue, max = float.MinValue;
+    protected List<Date> dates = new List<Date>();
+    protected Date _minDate = Date.MaxValue, _maxDate = Date.MinValue;
     #endregion
     #region methods
     public virtual void Add(ChartDataSource source)
@@ -65,7 +67,9 @@ public abstract partial class Chart : Control
         max = float.MinValue;
         min = float.MaxValue;
         foreach (Node node in GetChildren())
+        {
             if (node is ChartDataSource cds) Add(cds);
+        }
         QueueRedraw();
     }
     protected virtual bool AbleToDrawByDate()
@@ -76,7 +80,7 @@ public abstract partial class Chart : Control
         }
         return true;
     }
-    protected int[] DateOrder(bool descending = false)
+    protected int[] GetDateOrder(bool descending = false)
     {
         List<(Date, int)> dates = new List<(Date, int)>();
         for (int i = 0; i < sources.Count; i++)
@@ -84,9 +88,12 @@ public abstract partial class Chart : Control
             if (sources[i] is ChartDataSourceWithDate cds)
             {
                 dates.Add((cds.date, i));
+                this.dates.Add(cds.date);
             }
         }
         dates.Sort((a, b) => a.Item1.CompareTo(b.Item1));
+        _minDate = dates[0].Item1;
+        _maxDate = dates[^1].Item1;
         if (descending) dates.Reverse();
         int[] order = new int[dates.Count];
         for (int i = 0; i < dates.Count; i++)
