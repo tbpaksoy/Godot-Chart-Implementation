@@ -26,7 +26,8 @@ Experimental chart system.
 ![](Pictures/RadarChart.gif)
 
 **Timed Bar Chart** <br/>
-![](Pictures/TimedBarChar.gif)
+Note : Only works with chart data with date. <br/>
+![](Pictures/TimedBarChart.gif)
 
 ## Node Free Charts
 
