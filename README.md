@@ -25,6 +25,9 @@ Experimental chart system.
 **Radar Chart** <br/>
 ![](Pictures/RadarChart.gif)
 
+**Timed Bar Chart** <br/>
+![](Pictures/TimedBarChar.gif)
+
 ## Node Free Charts
 
 Don't want to use nodes to manipulate data ? No Problem! You can use Node Free Charts as well! <br/>
